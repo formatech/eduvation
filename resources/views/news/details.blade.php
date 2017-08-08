@@ -1,0 +1,3 @@
+
+
+news details list page 

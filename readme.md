@@ -43,3 +43,8 @@ We passed over Laravel folder structure, then started by making our first routes
 Within the `web.php` file, we registered `/users` and `/users/:id` to render the list of users and the user details pages.
 
 > **Note: ** Don't forget to define the views in the `resources\views` folder
+
+
+## Day 2
+In this session we learned how to make a separate Repository to encapsulate the user management logic in a separate class.
+

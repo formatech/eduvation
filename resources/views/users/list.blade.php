@@ -14,8 +14,8 @@
     @foreach($users as $user)
     <tr>        
         <th> <a href="/users/{{$user->id}}">{{ $user->id }}</a></th>        
-        <th> {{ $user->name }} </th>        
-        <th> {{ $user->age }} </th>        
+        <th> {{ $user->name }} </th>
+        <th> {{ $user->age }} </th>
     </tr>
     @endforeach
     

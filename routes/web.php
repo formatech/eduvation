@@ -17,71 +17,51 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-/********************************************************************************
-users
- - list 
- - profile
-news
- - list
- - details
-********************************************************************************/
-
-// in real life, data must be retrieved from db
-function getUsers() {
-    return [
-        (object) ['id' => 1, 'name' => 'gilbert', 'age' => 28],
-        (object) ['id' => 2, 'name' => 'ghenoie', 'age' => 35],
-        (object) ['id' => 3, 'name' => 'sohpie', 'age' => 13],
-    ];
-}
-
-
-
-// GET /users?id=123
+// GET /users
 Route::get('/users', function() {
     
-    $users = getUsers();
+    $usersRepo = new \App\Repositories\Users();
+
+    $users = $usersRepo->all();
 
     return view('users.list', ['users' => $users]);
     
 });
 
-Route::get('/users/{id}', function($id) {  
+// GET /users/create
+// Important note: specific routes should be registered first
+Route::get('/users/create', function() {
     
+    return view('users.create');
+
+});
+
+
+// GET /users/1
+Route::get('/users/{id}', function($id) {  
+
+    $usersRepo = new \App\Repositories\Users();
+
     $id = (int) $id;
 
+    $user = $usersRepo->find($id);
 
-    $users =  array_filter(
-        getUsers(), 
-        function($x) use($id) { return $x->id === $id; }
-    );
-
-    $user = $users[$id- 1];
+    if($user == null) {
+        abort(404);
+    }
 
     return view('users.details', ['user' => $user]);
     
 });
 
-Route::get('/users/details', function() {
-    
-    return view('users.details');
-    
+
+// POST /users
+Route::post('/users', function () {
+
+    $usersRepo = new \App\Repositories\Users;
+
+    $usersRepo->create(request()->only(['age', 'name']));
+
+    return redirect('/users');
+
 });
-
-
-
-
-Route::get('/news', function() {
-    
-    return view('news.list');
-    
-});
-
-Route::get('/news/details', function() {
-    
-    return view('news.details');
-    
-});
-

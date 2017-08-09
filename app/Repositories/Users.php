@@ -5,16 +5,11 @@ namespace App\Repositories;
 class Users {
 	
 	private $users;
+	private $lastId = 1;
 
     public function __construct () {
-    
-        $this->users = [
-            (object) ['id' => 1, 'name' => 'gilbert', 'age' => 28],
-            (object) ['id' => 2, 'name' => 'ghenoie', 'age' => 35],
-            (object) ['id' => 3, 'name' => 'sohpie', 'age' => 13],
-            (object) ['id' => 77, 'name' => 'user 77', 'age' => 13],
-        ];
-
+        // session()->flush();
+		$this->load();
     }
 	
 	function all() {
@@ -43,10 +38,43 @@ class Users {
 		}
 		
 		$this->users = $users;
+		
+		$this->persist();
 	}
 	
 	function create($user) {
-		$this->users[] = $user;
+
+		$user['id'] = $this->lastId++;
+
+		$this->users[] = (object) $user;
+
+		$this->persist();
+	}
+
+	private function persist() {
+		
+		session([
+			'users' => $this->users,
+			'lastId' => $this->lastId,
+		]);
+		
+	}
+
+	private function load() {
+		
+		$this->users = session('users');
+		$this->lastId = session('lastId');
+
+		if($this->users === null) {
+			$this->users = [];
+		}
+
+		if($this->lastId === null) {
+			$this->lastId = 1;
+		}
+
+		
+
 	}
 	
 }

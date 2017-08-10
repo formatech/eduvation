@@ -65,3 +65,19 @@ Route::post('/users', function () {
     return redirect('/users');
 
 });
+
+
+
+
+// GET /students
+Route::get('/students', 'StudentsController@all');
+
+// GET /students/create
+// Important note: specific routes should be registered first
+Route::get('/students/create', 'StudentsController@create');
+
+// GET /students/1
+Route::get('/students/{id}', 'StudentsController@details');
+
+// POST /students
+Route::post('/students', 'StudentsController@store');

@@ -66,6 +66,25 @@ Route::post('/users', function () {
 
 });
 
+Route::get('/save', function() {
+    
+    // raw php cookie
+    // setcookie('name', 'value');
+    
+    $cookie = cookie('name', 'Hello Josiane', 10);
+
+    return response('cookie set')->cookie($cookie);
+
+});
+
+Route::get('/get', function() {
+
+    $cookie = request()->cookie('name');
+
+    return "My cookie is $cookie";
+
+});
+
 
 
 
@@ -81,3 +100,8 @@ Route::get('/students/{id}', 'StudentsController@details');
 
 // POST /students
 Route::post('/students', 'StudentsController@store');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
